@@ -1,0 +1,163 @@
+definitions:
+  models.Blog:
+    type: object
+host: blog-post-api-chmy.onrender.com
+info:
+  contact: {}
+  description: Blog Post API is a RESTful API designed to manage blog posts. It provides
+    CRUD (Create, Read, Update, Delete) functionality, allowing users to create, update,
+    fetch, and delete blog posts. This API is built using Go and the Fiber framework
+    and is hosted on Render.
+  title: Blog API
+  version: "1.0"
+paths:
+  /api/blogs/:
+    get:
+      description: Retrieve a list of all blog posts
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Blog'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get all blog posts
+      tags:
+      - Blogs
+    post:
+      consumes:
+      - application/json
+      description: Create a new blog post with title, description, and body
+      parameters:
+      - description: Blog Post
+        in: body
+        name: blog
+        required: true
+        schema:
+          $ref: '#/definitions/models.Blog'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Blog'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a new blog post
+      tags:
+      - Blogs
+  /api/blogs/{id}:
+    delete:
+      description: Delete a blog post by ID
+      parameters:
+      - description: Blog ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete a blog post
+      tags:
+      - Blogs
+    get:
+      description: Retrieve a blog post using its ID
+      parameters:
+      - description: Blog ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Blog'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get a blog post by ID
+      tags:
+      - Blogs
+    put:
+      consumes:
+      - application/json
+      description: Update a blog post's title, description, or body
+      parameters:
+      - description: Blog ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated Blog Data
+        in: body
+        name: blog
+        required: true
+        schema:
+          $ref: '#/definitions/models.Blog'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Blog'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update a blog post
+      tags:
+      - Blogs
+swagger: "2.0"
